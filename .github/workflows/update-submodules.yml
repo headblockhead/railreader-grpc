@@ -21,7 +21,8 @@ jobs:
           token: ${{ secrets.RAILREADER_GRPC_GITHUB_TOKEN }}
           persist-credentials: true
           path: ${{ matrix.repo }}
-      - working-directory: ${{ matrix.repo }}
+      - name: Update submodule, commit, and push
+        working-directory: ${{ matrix.repo }}
         run: |
           git config user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
