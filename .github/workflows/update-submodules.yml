@@ -18,10 +18,9 @@ jobs:
         with:
           repository: headblockhead/${{ matrix.repo }}
           submodules: recursive
+          token: ${{ secrets.RAILREADER_GRPC_GITHUB_TOKEN }}
+          persist-credentials: true
           path: ${{ matrix.repo }}
-      - run: |
-          echo "machine github.com login github-actions[bot] password ${{ secrets.RAILREADER_GRPC_GITHUB_TOKEN }}" > ~/.netrc
-          chmod 600 ~/.netrc
       - working-directory: ${{ matrix.repo }}
         run: |
           git config user.name 'github-actions[bot]'
