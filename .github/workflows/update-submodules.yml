@@ -16,9 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: "headblockhead/${ matrix.repo }"
+          repository: "headblockhead/${{ matrix.repo }}"
           submodules: recursive
-          path: ${ matrix.repo }
+          path: ${{ matrix.repo }}
       - working-directory: railreader-grpc
         run: git pull
       - run: |
