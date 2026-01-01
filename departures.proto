@@ -2,9 +2,15 @@ syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
 message DepartureRequest {
-    string station_code = 1;
+    // Location ID is a TIPLOC code.
+    string location_id = 1;
+    // From and To times are inclusive, and must be within a maximum of 1 week between each other.
+    timestamp from_time = 2;
+    timestamp to_time = 3;
 }
 
 message DepartureResponse {
-    string schedule_id = 1;
+    string schedule_uuid = 1;
+    timestamp arrival_time = 2;
+    timestamp departure_time = 3;
 }
