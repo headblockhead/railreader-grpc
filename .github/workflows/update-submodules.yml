@@ -1,0 +1,28 @@
+name: Update submodules
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  push-submodule-update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        repo:
+          - "railreader-grpc-go"
+          - "railreader-grpc-swift"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: "headblockhead/${ matrix.repo }"
+          submodules: recursive
+          path: ${ matrix.repo }
+      - working-directory: railreader-grpc
+        run: git pull
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -am "autoupdate railreader-grpc submodule"
+          git push
