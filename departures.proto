@@ -1,16 +1,42 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-message DepartureRequest {
-    // Location ID is a TIPLOC code.
-    string location_id = 1;
-    // From and To times are inclusive, and must be within a maximum of 1 week between each other.
-    timestamp from_time = 2;
-    timestamp to_time = 3;
+enum StationBoardType {
+    SB_UNSPECIFIED = 0; // Will cause an error.
+    SB_ARRIVALS = 1;
+    SB_PASSES = 2;
+    SB_DEPARTURES = 3;
 }
 
-message DepartureResponse {
+message StationBoardRequest {
+    // Location ID is a TIPLOC code.
+    string location_id = 1;
+    // From & To are inclusive, and must be within a maximum of 1 week between each other.
+    // They filter based on working arrival/passing/departure times, which time is used for the filtering is dependent on board_type.
+    string from_time = 2;
+    string to_time = 3;
+    StationBoardType board_type = 4;
+}
+
+message StationBoardResponse {
     string schedule_uuid = 1;
-    timestamp arrival_time = 2;
-    timestamp departure_time = 3;
+    string schedule_location_uuid = 2;
+
+    repeated string activity = 3;
+    repeated string planned_activities = 4;
+    bool is_cancelled = 5;
+    optional string formation_id = 6;
+    bool is_affected_by_diversion = 7;
+    string type = 8;
+    optional string working_arrival_time = 9;
+    optional string working_passing_time = 10;
+    optional string working_departure_time = 11;
+    optional string planned_arrival_time = 12;
+    optional string planned_departure_time = 13;
+    int routing_delay = 14; // in minutes
+
+    string destination_location_id = 15;
+    optional string false_destination_location_id = 16;
+
+
 }
