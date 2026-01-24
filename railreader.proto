@@ -3,9 +3,9 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "departures.proto";
 
-// All time-based properties are as in IETF RFC 3339.
+// All time-based properties are strings, formatted as in IETF RFC 3339.
 
 service RailReader {
-  rpc GetDepartures(DepartureRequest) returns (stream DepartureResponse);
-  rpc Get
+  rpc GetLocationUpdates(LocationUpdatesRequest) returns (stream LocationUpdateResponse)
+  rpc GetServicesOfStation(StationServicesRequest) returns (stream ServiceResponse)
 }
