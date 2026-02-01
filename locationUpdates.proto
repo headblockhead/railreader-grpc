@@ -1,29 +1,22 @@
 syntax = "proto3";
 
-// The locationUpdates system assumes your client will store an array of locations, and make periodical (minimum once per day after ~03:30) calls to keep said array up-to-date by pulling in changes from the server.
+// The locationUpdates system assumes your client will store an array of changes to the locations list over time, and make periodical (minimum once per day after ~03:30) calls to keep said array of changes up-to-date from the server.
 
-// To get an initial array of locations, call without including a last_reference_file_id.
+// To get changes to the locations list from the start of availiable data, call without including a from_reference_file_id.
 message LocationUpdatesRequest {
-    optional string last_reference_file_id = 1;
+    optional string from_reference_file_id = 1;
 }
 
-enum LocationUpdateType {
-    LUT_CREATED = 0;
-    LUT_UPDATED = 1;
-    LUT_DELETED = 2;
+message LocationUpdate {
+    string reference_file_id = 6; // The reference_file_id at which this change occurred. 
+    string location_id = 1; // TIPLOC
+    boolean is_deleted = 5;
+    optional string crs_id = 2;
+    optional string toc_id = 3;
+    optional string name = 4;
 }
 
 message LocationUpdateResponse {
-    LocationUpdateType type = 1;
-    string id = 2; // TIPLOC
-
-    // If type is LUT_CREATED, all the fields below are to be taken as definitions for the new location entry.
-    // If type is LUT_UPDATED, only the fields specified are to be updated:
-    // - non-specified optional fields represent unchanged values.
-    // - specified optional fields with empty values represent fields that should be set to nil or your language's equivalent.
-    // - specified optional fields with a value should be updated to said value.
-    // If type is LUT_DELETED, the fields below should be ignored.
-    optional string crs = 3;
-    optional string toc = 4;
-    optional string name = 5;
+   string to_reference_file_id = 1; // The lastest reference_file_id equivalent you will have after applying all updates.
+   repeated LocationUpdate updates = 2;
 }
