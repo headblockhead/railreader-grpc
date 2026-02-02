@@ -27,5 +27,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git submodule update --remote
-          git commit -am "chore: update railreader-grpc submodule"
+          git commit -am "autoupdate railreader-grpc submodule from master" 
           git push
