@@ -14,7 +14,7 @@ message LocationUpdate {
     bool is_deleted = 5;
     optional string crs_id = 2;
     optional string toc_id = 3;
-    optional string name = 4;
+    string name = 4;
 }
 
 message LocationUpdateResponse {
