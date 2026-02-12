@@ -1,7 +1,7 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-// The locationUpdates system assumes your client will store an array of changes to the locations list over time, and make periodical (minimum once per day after ~03:30) calls to keep said array of changes up-to-date from the server.
+// The locationUpdates system assumes your client will store an array of changes to the locations list over time, and make periodical (minimum once after passing ~03:30AM each day) calls to keep said array of changes up-to-date from the server.
 
 // To get changes to the locations list from the start of availiable data, call without including a from_reference_file_id.
 message LocationUpdatesRequest {
