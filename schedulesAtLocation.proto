@@ -6,22 +6,11 @@ message SchedulesAtLocationRequest {
 }
 
 // This contains some minimal information about a schedule at the location requested.
-// Designed to use very little bandwidth, but still be useful for displaying simple departure/arrival boards.
+// Designed to use very little bandwidth.
 // More (useful) data can be requested using the IDs provided.
 message SchedulesAtLocationResponse {
     string schedule_uuid = 1;
     string schedule_id = 2;
     string schedule_location_uuid = 3;
-
-    // The TIPLOC of the destination as to be shown from the requested location.
-    // This is not necessarily the same as the schedule's final location, as it may be different when useful for signage clarity.
-    // e.g. two different services to York: one express, and one frequent-stop with a 'false destination' displayed as Poppleton instead of York.
-    //string displayed_destination_location_id = 4; 
-
-    // If required, provides a "via xyz" string to display alongside the service destination.
-    //optional string via = 5;
-
-    string planned_arrival_time = 6;
-    string planned_passing_time = 7;
-    string planned_departure_time = 8;
+    string scheduled_start_date = 4; // in YYYY-MM-DD format
 }
