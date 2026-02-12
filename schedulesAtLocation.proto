@@ -2,7 +2,9 @@ syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
 message SchedulesAtLocationRequest {
-    string location_id = 1; // TIPLOC                            
+    string location_id = 1;
+    string from_date = 2;
+    string to_date = 3;
 }
 
 // This contains some minimal information about a schedule at the location requested.
@@ -12,5 +14,5 @@ message SchedulesAtLocationResponse {
     string schedule_uuid = 1;
     string schedule_id = 2;
     string schedule_location_uuid = 3;
-    string scheduled_start_date = 4; // in YYYY-MM-DD format
+    string scheduled_start_date = 4;
 }
