@@ -1,12 +1,10 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-// All time and date properties are strings formatted as in IETF RFC 3339.
-
-import "locationUpdates.proto";
-import "schedulesAtLocation.proto";
+import "updateLocations.proto";
+import "search.proto";
 
 service RailReader {
-  rpc GetLocationUpdates(LocationUpdatesRequest) returns (LocationUpdateResponse) {}
-  rpc GetSchedulesAtLocation(SchedulesAtLocationRequest) returns (stream SchedulesAtLocationResponse) {}
+  rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {}
+  rpc Search(SearchRequest) returns (stream SearchResponse) {}
 }

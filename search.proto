@@ -1,0 +1,242 @@
+syntax = "proto3";
+option go_package = "github.com/headblockhead/railreader-grpc";
+
+enum SearchType {
+    SEARCH_TYPE_RETURN_NONE = 0;
+    SEARCH_TYPE_RETURN_DEPARTURES = 1;
+    SEARCH_TYPE_RETURN_PASSING = 2;
+    SEARCH_TYPE_RETURN_PASSING_AND_DEPARTURES = 3;
+    SEARCH_TYPE_RETURN_ARRIVALS = 4;
+    SEARCH_TYPE_RETURN_ARRIVALS_AND_DEPARTURES = 5;
+    SEARCH_TYPE_RETURN_ARRIVALS_AND_PASSING = 6;
+    SEARCH_TYPE_RETURN_ARRIVALS_AND_PASSING_AND_DEPARTURES = 7;
+}
+
+message SearchRequest {
+    SearchType search_type = 1;
+    optional string location_id = 2;
+    optional string crs_id = 3;
+
+    string from_time = 4; 
+    string to_time = 5; 
+}
+
+enum ServiceType {
+    SERVICE_TYPE_UNKNOWN = 0;
+    SERVICE_TYPE_TRAIN = 1;
+    SERVICE_TYPE_SHORT_TERM_PLANNED_TRAIN = 2;
+    SERVICE_TYPE_BUS = 3;
+    SERVICE_TYPE_SHORT_TERM_PLANNED_BUS = 4;
+    SERVICE_TYPE_SHIP = 5;
+    SERVICE_TYPE_SHORT_TERM_PLANNED_SHIP = 6;
+    // Trip and Freight types ommitted as they are not tracked by Darwin
+}
+
+enum CategoryType {
+    CATEGORY_TYPE_UNKNOWN = 0;
+
+    CATEGORY_TYPE_UNDERGROUND_OR_METRO = 1;
+	  CATEGORY_TYPE_UNADVERTISED_PASSENGER = 2;
+	  CATEGORY_TYPE_PASSENGER = 3; 
+	  CATEGORY_TYPE_STAFF = 4;
+	  CATEGORY_TYPE_MIXED = 5;
+
+	  CATEGORY_TYPE_CHANNEL_TUNNEL = 6;
+	  CATEGORY_TYPE_SLEEPER = 7;
+	  CATEGORY_TYPE_INTERNATIONAL = 8;
+	  CATEGORY_TYPE_MOTORAIL = 9;
+	  CATEGORY_TYPE_UNADVERTISED_EXPRESS = 10;
+	  CATEGORY_TYPE_EXPRESS = 11;
+	  CATEGORY_TYPE_SLEEPER_DOMESTIC = 12;
+
+	  CATEGORY_TYPE_BUS_REPLACEMENT = 13;
+	  CATEGORY_TYPE_BUS_SERVICE = 14;
+
+	  CATEGORY_TYPE_SHIP = 15;
+
+	  CATEGORY_TYPE_EMPTY_COACHING_STOCK = 16;
+	  CATEGORY_TYPE_EMPTY_COACHING_STOCK_UNDERGROUND_OR_METRO = 17;
+	  CATEGORY_TYPE_EMPTY_COACHING_STOCK_OR_STAFF = 18;
+
+    // Postal, Departmental, Light Locomotive, Railfreight Distribution, Trainload Freight, and Channel Tunnel Railfreight Distribution are all ommitted as they are not tracked by Darwin
+}
+
+enum ActivityType {
+	ACTIVITY_TYPE_NONE = 0;
+
+	ACTIVITY_TYPE_TRAIN_BEGINS = 1;
+  ACTIVITY_TYPE_TRAIN_FINISHES = 2;
+
+	ACTIVITY_TYPE_STOPS_TO_TAKE_UP_AND_SET_DOWN_PASSENGERS = 3;
+  ACTIVITY_TYPE_STOPS_TO_TAKE_UP_PASSENGERS = 4;
+  ACTIVITY_TYPE_STOPS_TO_SET_DOWN_PASSENGERS = 5;
+
+	ACTIVITY_TYPE_STOPS_OR_SHUNTS_FOR_OTHER_TRAINS_TO_PASS = 6;
+  ACTIVITY_TYPE_STOPS_TO_ATTACH_OR_DETACH_ASSISTING_LOCOMOTIVE = 7;
+  ACTIVITY_TYPE_SHOWS_AS_X_ON_ARRIVAL = 8;
+  ACTIVITY_TYPE_STOPS_FOR_BANKING_LOCOMOTIVE = 9; 
+  ACTIVITY_TYPE_STOPS_TO_CHANGE_TRAIN_CREW = 10; 
+  ACTIVITY_TYPE_STOPS_TO_DETATCH_VEHICLES = 11; 
+  ACTIVITY_TYPE_STOPS_FOR_EXAMINATION = 12; 
+  ACTIVITY_TYPE_NATIONAL_RAIL_TIMETABLE_DATA_TOADD = 13; 
+  ACTIVITY_TYPE_NOTIONAL_ACTIVITY_TO_PREVENT_WTT_TIMING_COLUMNS_MERGE = 14;
+  ACTIVITY_TYPE_NOTIONAL_ACTIVITY_TO_PREVENT_WTT_TIMING_COLUMNS_MERGE_TWICE = 15;
+  ACTIVITY_TYPE_PASSENGER_COUNT_POINT = 16;
+  ACTIVITY_TYPE_TICKET_COLLECTION_AND_EXAMINATION_POINT = 17;
+  ACTIVITY_TYPE_TICKET_EXAMINATION_POINT = 18;
+  ACTIVITY_TYPE_TICKET_EXAMINATION_POINT_FIRST_CLASS_ONLY = 19;
+  ACTIVITY_TYPE_TICKET_EXAMINATION_POINT_SELECTIVE = 20;
+  ACTIVITY_TYPE_STOPS_TO_CHANGE_LOCOMOTIVES = 21;
+  ACTIVITY_TYPE_STOP_NOT_ADVERTISED = 22;
+  ACTIVITY_TYPE_STOPS_FOR_OTHER_OPERATING_REASONS = 23;
+  ACTIVITY_TYPE_TRAIN_LOCOMOTIVE_ON_REAR = 24;
+  ACTIVITY_TYPE_PROPELLING_BETWEEN_POINTS_SHOWN = 25;
+  ACTIVITY_TYPE_STOPS_WHEN_REQUIRED = 26;
+  ACTIVITY_TYPE_STOPS_FOR_REVERSING_MOVEMENT_OR_DRIVER_END_CHANGE = 27;
+  ACTIVITY_TYPE_STOPS_FOR_LOCOMOTIVE_TO_RUN_ROUND = 28;
+  ACTIVITY_TYPE_STOPS_FOR_RAILWAY_PERSONELL_ONLY = 29;
+  ACTIVITY_TYPE_STOPS_TO_ATTACH_AND_DETACH_VEHICLES = 30;
+  ACTIVITY_TYPE_DETAIL_CONSIST_FOR_TOPS_DIRECT = 31;
+  ACTIVITY_TYPE_STOPS_OR_PASSES_FOR_TABLET_STAFF_OR_TOKEN = 32;
+  ACTIVITY_TYPE_STOPS_TO_ATTACH_VEHICLES = 33;
+  ACTIVITY_TYPE_STOPS_FOR_WATERING_OF_COACHES = 34;
+  ACTIVITY_TYPE_PASSES_ANOTHER_TRAIN_AT_CROSSING_POINT_ON_SINGLE_LINE = 35;
+}
+
+enum LocationType {
+    LOCATION_TYPE_UNKNOWN = 0;
+    LOCATION_TYPE_ORIGIN = 1;
+    LOCATION_TYPE_OPERATIONAL_ORIGIN = 2;
+    LOCATION_TYPE_INTERMEDIATE = 3;
+    LOCATION_TYPE_OPERATIONAL_INTERMEDIATE = 4;
+    LOCATION_TYPE_INTERMEDIATE_PASSING = 5;
+    LOCATION_TYPE_DESTINATION = 6;
+    LOCATION_TYPE_OPERATIONAL_DESTINATION = 7;
+}
+
+enum PlatformDataSource {
+    PLATFORM_DATA_SOURCE_UNKNOWN = 0;
+    PLATFORM_DATA_SOURCE_PLANNED = 1;
+    PLATFORM_DATA_SOURCE_AUTOMATIC = 2;
+    PLATFORM_DATA_SOURCE_MANUAL = 3;
+}
+
+// TODO: formation
+// TODO: false destination
+// TODO: platform
+// TODO: Service Routes
+
+// Note on times:
+// 'Working' times are used internally by staff
+// 'Public' times are used for display to passengers
+// Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
+// There is no scheduled_public_passing_time because locations which a service passes through without stopping do not need to display any times to the public.
+// Forecast times:
+// estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
+// estimated_minimum_*_time is Darwin's estimation of the first possible times.
+// actual_*_time are time reports from the physical train
+
+message SearchResponse {
+    Schedule schedule = 1;
+    ScheduleLocation schedule_location = 2;
+    optional Forecast forecast = 3;
+
+    optional string platform = 4; // can be sourced either from darwin.schedule_locations or darwin.forecast_locations
+    optional uint32 length = 5; // number of coaches, can be sourced either from darwin.formation_coaches or darwin.forecast_locations
+    bool circular_route = 6;
+
+    ServiceRoute previous_route = 7;
+    ServiceRoute next_route = 8;
+}
+
+message ServiceRoute { }
+
+message ServiceRouteLocation { }
+
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
+}
+
+message Schedule {
+    string schedule_id = 1;
+    string uid = 2;
+    string headcode = 3;
+    optional string retail_service_id = 4;
+    string toc_id = 5;
+    ServiceType service_type = 6;
+    CategoryType category_type = 7;
+    bool passenger = 8;
+    bool active = 9;
+    bool chartered = 10;
+    bool schedule_cancelled = 11;
+    optional DisruptionReason schedule_cancellation_reason = 12;
+    optional string schedule_diverted_via_location_id = 13;
+    optional DisruptionReason schedule_diversion_reason = 14;
+}
+
+message ScheduleLocation {
+    repeated ActivityType activities = 1;
+    repeated ActivityType planned_activities = 2;
+    bool location_is_affected_by_diversion = 3;
+    LocationType location_type = 4;
+    optional string scheduled_working_arrival_time = 5;
+    optional string scheduled_working_passing_time = 6; 
+    optional string scheduled_working_departure_time = 7; 
+    optional string scheduled_public_arrival_time = 8; 
+    optional string scheduled_public_departure_time = 9;
+    uint32 routing_delay = 10; // in minutes
+    bool location_cancelled = 11;
+    optional DisruptionReason location_cancellation_reason = 12;
+}
+
+message Forecast {
+    bool reverse_formation = 1;
+    optional DisruptionReason schedule_late_reason = 2;
+
+    optional string estimated_public_arrival_time = 3; 
+    optional string estimated_working_arrival_time = 4;
+    optional string estimated_minimum_arrival_time = 5;
+    optional bool arrival_delayed = 6;
+    optional bool arrival_delayed_by_unknown_amount = 7;
+    optional string estimated_passing_time = 8;
+    optional string estimated_minimum_passing_time = 9;
+    optional bool passing_delayed = 10;
+    optional bool passing_delayed_by_unknown_amount = 11;
+    optional string estimated_public_departure_time = 12; 
+    optional string estimated_working_departure_time = 13;
+    optional string estimated_minimum_departure_time = 14;
+    optional bool departure_delayed = 15;
+    optional bool departure_delayed_by_unknown_amount = 16;
+
+    optional string actual_arrival_time = 17;
+    optional string actual_arrival_data_class = 18;
+    optional string actual_arrival_data_source = 19;
+    optional string actual_arrival_data_source_system = 20;
+    optional string actual_passing_time = 21; 
+    optional string actual_passing_data_class = 22;
+    optional string actual_passing_data_source = 23;
+    optional string actual_passing_data_source_system = 24;
+    optional string actual_departure_time = 25; 
+    optional string actual_departure_data_class = 26;
+    optional string actual_departure_data_source = 27;
+    optional string actual_departure_data_source_system = 28;
+  
+    optional DisruptionReason location_late_reason = 29;
+    optional string location_disruption_risk = 30;
+    optional DisruptionReason location_disruption_risk_reason = 31;
+
+    optional string affected_by = 32;
+
+    optional bool platform_suppressed = 33; // do not display platform information if true
+    optional bool platform_suppressed_by_cis = 34;
+    optional PlatformDataSource platform_data_source = 35;
+    optional bool platform_confirmed = 36;
+
+    bool service_suppressed = 37;
+    bool detatches_from_front = 38;
+}
