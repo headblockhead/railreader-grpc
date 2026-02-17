@@ -4,7 +4,7 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 import "railtypes.proto";
 
 enum SearchType {
-    SEARCH_TYPE_RETURN_NONE = 0;
+    SEARCH_TYPE_RETURN_UNSPECIFIED = 0;
     SEARCH_TYPE_RETURN_DEPARTURES = 1;
     SEARCH_TYPE_RETURN_PASSING = 2;
     SEARCH_TYPE_RETURN_PASSING_AND_DEPARTURES = 3;
@@ -21,24 +21,6 @@ message SearchRequest {
 
     string from_time = 4; 
     string to_time = 5; 
-}
-
-enum LocationType {
-    LOCATION_TYPE_UNKNOWN = 0;
-    LOCATION_TYPE_ORIGIN = 1;
-    LOCATION_TYPE_OPERATIONAL_ORIGIN = 2;
-    LOCATION_TYPE_INTERMEDIATE = 3;
-    LOCATION_TYPE_OPERATIONAL_INTERMEDIATE = 4;
-    LOCATION_TYPE_INTERMEDIATE_PASSING = 5;
-    LOCATION_TYPE_DESTINATION = 6;
-    LOCATION_TYPE_OPERATIONAL_DESTINATION = 7;
-}
-
-enum PlatformDataSource {
-    PLATFORM_DATA_SOURCE_UNKNOWN = 0;
-    PLATFORM_DATA_SOURCE_PLANNED = 1;
-    PLATFORM_DATA_SOURCE_AUTOMATIC = 2;
-    PLATFORM_DATA_SOURCE_MANUAL = 3;
 }
 
 // TODO: formation
@@ -99,6 +81,17 @@ message Schedule {
     optional DisruptionReason schedule_diversion_reason = 14;
 }
 
+enum LocationType {
+    LOCATION_TYPE_SCHEDULE_UNKNOWN = 0;
+    LOCATION_TYPE_SCHEDULE_ORIGIN = 1;
+    LOCATION_TYPE_SCHEDULE_OPERATIONAL_ORIGIN = 2;
+    LOCATION_TYPE_SCHEDULE_INTERMEDIATE = 3;
+    LOCATION_TYPE_SCHEDULE_OPERATIONAL_INTERMEDIATE = 4;
+    LOCATION_TYPE_SCHEDULE_INTERMEDIATE_PASSING = 5;
+    LOCATION_TYPE_SCHEDULE_DESTINATION = 6;
+    LOCATION_TYPE_SCHEDULE_OPERATIONAL_DESTINATION = 7;
+}
+
 message ScheduleLocation {
     repeated ActivityType activities = 1;
     repeated ActivityType planned_activities = 2;
@@ -112,6 +105,13 @@ message ScheduleLocation {
     uint32 routing_delay = 10; // in minutes
     bool location_is_cancelled = 11;
     optional DisruptionReason location_cancellation_reason = 12;
+}
+
+enum PlatformDataSource {
+    PLATFORM_DATA_SOURCE_UNKNOWN = 0;
+    PLATFORM_DATA_SOURCE_PLANNED = 1;
+    PLATFORM_DATA_SOURCE_AUTOMATIC = 2;
+    PLATFORM_DATA_SOURCE_MANUAL = 3;
 }
 
 message Forecast {

@@ -8,6 +8,11 @@ message UpdateLocationsRequest {
     optional string from_reference_file_id = 1;
 }
 
+message UpdateLocationsResponse {
+   string to_reference_file_id = 1; // The lastest reference_file_id equivalent you will have after applying all updates.
+   repeated LocationUpdate updates = 2;
+}
+
 message LocationUpdate {
     string reference_file_id = 6; // The reference_file_id at which this change occurred. 
     string location_id = 1;
@@ -15,9 +20,4 @@ message LocationUpdate {
     optional string crs_id = 2;
     optional string toc_id = 3;
     string name = 4;
-}
-
-message UpdateLocationsResponse {
-   string to_reference_file_id = 1; // The lastest reference_file_id equivalent you will have after applying all updates.
-   repeated LocationUpdate updates = 2;
 }
