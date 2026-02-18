@@ -19,9 +19,9 @@ message SearchResponse {
 
     reserved 5 to 6;
 
-    string generous_arrival_time = 7;
-    string generous_passing_time = 8;
-    string generous_departure_time = 9;
+    optional string generous_arrival_time = 7;
+    optional string generous_passing_time = 8;
+    optional string generous_departure_time = 9;
 
     optional string platform = 10; 
 }
