@@ -5,6 +5,6 @@ import "updateLocations.proto";
 import "search.proto";
 
 service RailReader {
-  rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {}
-  rpc Search(SearchRequest) returns (stream SearchResponse) {}
+    rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
+    rpc Search(SearchRequest) returns (stream SearchResponse) {}
 }

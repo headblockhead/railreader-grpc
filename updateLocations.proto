@@ -1,23 +1,22 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-// The locationUpdates system assumes your client will store an array of changes to the locations list over time, and make periodical (minimum once after passing ~03:30AM each day) calls to keep said array of changes up-to-date from the server.
-
-// To get changes to the locations list from the start of availiable data, call without including a from_reference_file_id.
 message UpdateLocationsRequest {
-    optional string from_reference_file_id = 1;
+    optional string current_reference_file_id = 1; // If not specified, all updates will be returned.
 }
 
 message UpdateLocationsResponse {
-   string to_reference_file_id = 1; // The lastest reference_file_id equivalent you will have after applying all updates.
-   repeated LocationUpdate updates = 2;
+    repeated LocationUpdate updates = 1; // All (if any) updates between the current_reference_file_id in UpdateLocationsRequest and the new_reference_file_id in this response.
+    string new_reference_file_id = 2; // The lastest reference_file_id equivalent you will have after applying all updates.
 }
 
+// An update made to a location at a point in time.
+// Provides the new state for a given location_id, and the reference_file_id at which this change occurred.
 message LocationUpdate {
-    string reference_file_id = 6; // The reference_file_id at which this change occurred. 
-    string location_id = 1;
-    bool is_deleted = 5;
-    optional string crs_id = 2;
-    optional string toc_id = 3;
-    string name = 4;
+    string location_id = 1; // The location_id affected
+    string reference_file_id = 2; // The reference_file_id at which this change occurred. 
+    bool is_deleted = 3; 
+    optional string crs_id = 4;
+    optional string toc_id = 5;
+    string name = 6;
 }

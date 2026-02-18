@@ -3,66 +3,32 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
-enum SearchType {
-    SEARCH_TYPE_RETURN_UNSPECIFIED = 0;
-    SEARCH_TYPE_RETURN_DEPARTURES = 1;
-    SEARCH_TYPE_RETURN_PASSING = 2;
-    SEARCH_TYPE_RETURN_PASSING_AND_DEPARTURES = 3;
-    SEARCH_TYPE_RETURN_ARRIVALS = 4;
-    SEARCH_TYPE_RETURN_ARRIVALS_AND_DEPARTURES = 5;
-    SEARCH_TYPE_RETURN_ARRIVALS_AND_PASSING = 6;
-    SEARCH_TYPE_RETURN_ARRIVALS_AND_PASSING_AND_DEPARTURES = 7;
-}
-
+// From and To times are inclusive, and may return services scheduled up to 2 hours before and after the provided times to allow for services that are running early or late to be shown in the results.
 message SearchRequest {
-    SearchType search_type = 1;
-    optional string location_id = 2;
-    optional string crs_id = 3;
+    repeated string location_id = 1;
 
-    string from_time = 4; 
-    string to_time = 5; 
+    string from_time = 2;
+    string to_time = 3;
 }
 
 // TODO: formation
 // TODO: false destination
-// TODO: platform
-// TODO: Service Routes
-
-// Note on times:
-// 'Working' times are used internally by staff
-// 'Public' times are used for display to passengers
-// Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
-// There is no scheduled_public_passing_time because locations which a service passes through without stopping do not need to display any times to the public.
-// Forecast times:
-// estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
-// estimated_minimum_*_time is Darwin's estimation of the first possible times.
-// actual_*_time are time reports from the physical train
 
 message SearchResponse {
     Schedule schedule = 1;
     ScheduleLocation schedule_location = 2;
-    optional Forecast forecast = 3;
+    optional Forecast forecast = 3; // TODO
 
-    optional string platform = 4; // can be sourced either from darwin.schedule_locations or darwin.forecast_locations
-    optional uint32 length = 5; // number of coaches, can be sourced either from darwin.formation_coaches or darwin.forecast_locations
-    bool is_circular_route = 6;
+    optional string platform = 4; // TODO
+    optional uint32 length = 5; // TODO
+    bool is_circular_route = 6; // TODO
 
-    ServiceRoute previous_route = 7;
-    ServiceRoute next_route = 8;
+    ServiceRoute previous_route = 7; // TODO
+    ServiceRoute next_route = 8; // TODO
 }
 
 message ServiceRoute { }
-
 message ServiceRouteLocation { }
-
-message DisruptionReason {
-    uint32 reason_id = 1;
-    optional string reason_location_id = 2;
-
-    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-    // When false, the reason_id is 'at' the reason_location_id.
-    bool reason_is_near_location = 3;  
-}
 
 message Schedule {
     string schedule_id = 1;
@@ -81,21 +47,24 @@ message Schedule {
     optional DisruptionReason schedule_diversion_reason = 14;
 }
 
-enum LocationType {
-    LOCATION_TYPE_SCHEDULE_UNKNOWN = 0;
-    LOCATION_TYPE_SCHEDULE_ORIGIN = 1;
-    LOCATION_TYPE_SCHEDULE_OPERATIONAL_ORIGIN = 2;
-    LOCATION_TYPE_SCHEDULE_INTERMEDIATE = 3;
-    LOCATION_TYPE_SCHEDULE_OPERATIONAL_INTERMEDIATE = 4;
-    LOCATION_TYPE_SCHEDULE_INTERMEDIATE_PASSING = 5;
-    LOCATION_TYPE_SCHEDULE_DESTINATION = 6;
-    LOCATION_TYPE_SCHEDULE_OPERATIONAL_DESTINATION = 7;
-}
-
+// 'Working' times are used internally by staff
+// 'Public' times are used for display to passengers
+// Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
+// There is no scheduled_public_passing_time because locations through which a service passes without stopping do not need to display any times to the public.
 message ScheduleLocation {
     repeated ActivityType activities = 1;
     repeated ActivityType planned_activities = 2;
     bool location_is_affected_by_diversion = 3;
+    enum LocationType {
+        LOCATION_TYPE_LOCATION_UNKNOWN = 0;
+        LOCATION_TYPE_LOCATION_ORIGIN = 1;
+        LOCATION_TYPE_LOCATION_OPERATIONAL_ORIGIN = 2;
+        LOCATION_TYPE_LOCATION_INTERMEDIATE = 3;
+        LOCATION_TYPE_LOCATION_OPERATIONAL_INTERMEDIATE = 4;
+        LOCATION_TYPE_LOCATION_INTERMEDIATE_PASSING = 5;
+        LOCATION_TYPE_LOCATION_DESTINATION = 6;
+        LOCATION_TYPE_LOCATION_OPERATIONAL_DESTINATION = 7;
+    }
     LocationType location_type = 4;
     optional string scheduled_working_arrival_time = 5;
     optional string scheduled_working_passing_time = 6; 
@@ -107,13 +76,9 @@ message ScheduleLocation {
     optional DisruptionReason location_cancellation_reason = 12;
 }
 
-enum PlatformDataSource {
-    PLATFORM_DATA_SOURCE_UNKNOWN = 0;
-    PLATFORM_DATA_SOURCE_PLANNED = 1;
-    PLATFORM_DATA_SOURCE_AUTOMATIC = 2;
-    PLATFORM_DATA_SOURCE_MANUAL = 3;
-}
-
+// estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
+// estimated_minimum_*_time is Darwin's estimation of the first possible times.
+// actual_*_time are time reports from the physical train
 message Forecast {
     bool is_reverse_formation = 1;
     optional DisruptionReason schedule_late_reason = 2;
@@ -154,9 +119,23 @@ message Forecast {
 
     optional bool platform_is_suppressed = 33; // do not display platform information if true
     optional bool platform_is_suppressed_by_cis = 34;
+    enum PlatformDataSource {
+        PLATFORM_DATA_SOURCE_PLATFORM_UNKNOWN = 0;
+        PLATFORM_DATA_SOURCE_PLATFORM_PLANNED = 1;
+        PLATFORM_DATA_SOURCE_PLATFORM_AUTOMATIC = 2;
+        PLATFORM_DATA_SOURCE_PLATFORM_MANUAL = 3;
+    }
     optional PlatformDataSource platform_data_source = 35;
     optional bool platform_is_confirmed = 36;
 
     bool service_is_suppressed = 37;
     bool service_detatches_from_front = 38;
+}
+
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
 }
