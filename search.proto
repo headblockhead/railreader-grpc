@@ -11,27 +11,28 @@ message SearchRequest {
     string to_time = 3;
 }
 
-// TODO: formation
-// TODO: false destination
-
 message SearchResponse {
     string location_id = 1;
     Schedule schedule = 2;
     ScheduleLocation schedule_location = 3;
-    optional Forecast forecast = 4; // TODO
+    optional Forecast forecast = 4;
 
-    reserved 5 to 9;
+    reserved 5 to 6;
 
-    optional string platform = 10; // TODO
-    optional uint32 length = 11; // TODO
-    bool is_circular_route = 12; // TODO
+    string generous_arrival_time = 7;
+    string generous_passing_time = 8;
+    string generous_departure_time = 9;
 
-    ServiceRoute previous_route = 13; // TODO
-    ServiceRoute next_route = 14; // TODO
+    optional string platform = 10; 
 }
 
-message ServiceRoute { }
-message ServiceRouteLocation { }
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
+}
 
 message Schedule {
     string schedule_id = 1;
@@ -135,10 +136,3 @@ message Forecast {
     bool service_detatches_from_front = 38;
 }
 
-message DisruptionReason {
-    uint32 reason_id = 1;
-    optional string reason_location_id = 2;
-    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-    // When false, the reason_id is 'at' the reason_location_id.
-    bool reason_is_near_location = 3;  
-}
