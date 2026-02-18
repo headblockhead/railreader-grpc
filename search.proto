@@ -5,7 +5,7 @@ import "railtypes.proto";
 
 // From and To times are inclusive, and may return services scheduled up to 2 hours before and after the provided times to allow for services that are running early or late to be shown in the results.
 message SearchRequest {
-    repeated string location_id = 1;
+    repeated string location_ids = 1;
 
     string from_time = 2;
     string to_time = 3;
@@ -15,16 +15,19 @@ message SearchRequest {
 // TODO: false destination
 
 message SearchResponse {
-    Schedule schedule = 1;
-    ScheduleLocation schedule_location = 2;
-    optional Forecast forecast = 3; // TODO
+    string location_id = 1;
+    Schedule schedule = 2;
+    ScheduleLocation schedule_location = 3;
+    optional Forecast forecast = 4; // TODO
 
-    optional string platform = 4; // TODO
-    optional uint32 length = 5; // TODO
-    bool is_circular_route = 6; // TODO
+    reserved 5 to 9;
 
-    ServiceRoute previous_route = 7; // TODO
-    ServiceRoute next_route = 8; // TODO
+    optional string platform = 10; // TODO
+    optional uint32 length = 11; // TODO
+    bool is_circular_route = 12; // TODO
+
+    ServiceRoute previous_route = 13; // TODO
+    ServiceRoute next_route = 14; // TODO
 }
 
 message ServiceRoute { }
