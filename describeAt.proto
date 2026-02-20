@@ -56,16 +56,6 @@ message ScheduleLocation {
     repeated ActivityType activities = 1;
     repeated ActivityType planned_activities = 2;
     bool location_is_affected_by_diversion = 3;
-    enum LocationType {
-        LOCATION_TYPE_LOCATION_UNKNOWN = 0;
-        LOCATION_TYPE_LOCATION_ORIGIN = 1;
-        LOCATION_TYPE_LOCATION_OPERATIONAL_ORIGIN = 2;
-        LOCATION_TYPE_LOCATION_INTERMEDIATE = 3;
-        LOCATION_TYPE_LOCATION_OPERATIONAL_INTERMEDIATE = 4;
-        LOCATION_TYPE_LOCATION_INTERMEDIATE_PASSING = 5;
-        LOCATION_TYPE_LOCATION_DESTINATION = 6;
-        LOCATION_TYPE_LOCATION_OPERATIONAL_DESTINATION = 7;
-    }
     LocationType location_type = 4;
     optional string scheduled_working_arrival_time = 5;
     optional string scheduled_working_passing_time = 6; 
