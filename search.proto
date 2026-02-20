@@ -3,20 +3,18 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
-// From and To times are inclusive, and may return services scheduled up to 2 hours before and after the provided times to allow for services that are running early or late to be shown in the results.
 message SearchRequest {
-    string location_id = 1;
+    string location_id = 1; // Only services scheduled at or through this location will be returned.
 
-    string from_time = 2;
-    string to_time = 3;
+    string from_time = 2; // Services scheduled up to 2 hours before the from_time may be included if they are delayed.
+    string to_time = 3; // Services scheduled up to 2 hours after the to_time may be included if they are early.
 
-    bool exclude_non_passenger_services = 4; // If true, only passenger services will be included. If false or unspecified, all services will be included.
-    bool exclude_non_active_services = 5; // If true, only active services will be included. If false or unspecified, all services will be included.
-    bool exclude_chartered_services = 6; // If true, only non-chartered services will be included. If false or unspecified, all services will be included. 
+    bool include_non_passenger_services = 4; // If true, all services will be included. If false or unspecified, only passenger services will be included.
+    bool exclude_non_active_services = 5; // If true, only active services will be included. Be warned: this excludes most historical data. If false or unspecified, all services will be included.
+    bool include_chartered_services = 6; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
     repeated LocationType filter_location_types = 7; // Filters results to include locations only of types listed. If none are given, all location types will be included.
 }
 
-// The details in a SearchResponse can be used in a DescribeAtRequest to get full details.
 message SearchResponse {
-    string schedule_id = 1;
+    string schedule_id = 1; // This can be used in a DescribeAtRequest to get full details about the service.
 }
