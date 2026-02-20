@@ -5,20 +5,18 @@ import "railtypes.proto";
 
 // From and To times are inclusive, and may return services scheduled up to 2 hours before and after the provided times to allow for services that are running early or late to be shown in the results.
 message SearchRequest {
-    repeated string location_ids = 1;
+    string location_id = 1;
 
     string from_time = 2;
     string to_time = 3;
 
-    bool exclude_non_passenger_services = 4;
-    bool exclude_non_active_services = 5; // REMINDER: see darwin.deactivations
-    bool exclude_chartered_services = 6;
-    repeated LocationType include_only_location_types = 7;
-    string include_only_platform = 8;
+    bool exclude_non_passenger_services = 4; // If true, only passenger services will be included. If false or unspecified, all services will be included.
+    bool exclude_non_active_services = 5; // If true, only active services will be included. If false or unspecified, all services will be included.
+    bool exclude_chartered_services = 6; // If true, only non-chartered services will be included. If false or unspecified, all services will be included. 
+    repeated LocationType filter_location_types = 7; // Filters results to include locations only of types listed. If none are given, all location types will be included.
 }
 
 // The details in a SearchResponse can be used in a DescribeAtRequest to get full details.
 message SearchResponse {
-    string location_id = 1;
-    string schedule_id = 2;
+    string schedule_id = 1;
 }
