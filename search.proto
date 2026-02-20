@@ -1,12 +1,20 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
+import "railtypes.proto";
+
 // From and To times are inclusive, and may return services scheduled up to 2 hours before and after the provided times to allow for services that are running early or late to be shown in the results.
 message SearchRequest {
     repeated string location_ids = 1;
 
     string from_time = 2;
     string to_time = 3;
+
+    bool exclude_non_passenger_services = 4;
+    bool exclude_non_active_services = 5; // REMINDER: see darwin.deactivations
+    bool exclude_chartered_services = 6;
+    repeated LocationType include_only_location_types = 7;
+    string include_only_platform = 8;
 }
 
 // The details in a SearchResponse can be used in a DescribeAtRequest to get full details.
