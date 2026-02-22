@@ -1,11 +1,11 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-message UpdateLocationsRequest {
+message LatestLocationUpdatesRequest {
     optional string current_reference_file_id = 1; // If not specified, all updates will be returned.
 }
 
-message UpdateLocationsResponse {
+message LatestLocationUpdatesResponse {
     repeated LocationUpdate updates = 1; // All (if any) updates between the current_reference_file_id in UpdateLocationsRequest and the new_reference_file_id in this response.
     string new_reference_file_id = 2; // The lastest reference_file_id equivalent you will have after applying all updates.
 }

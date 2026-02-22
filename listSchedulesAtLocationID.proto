@@ -3,7 +3,7 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
-message SearchRequest {
+message ListSchedulesAtLocationIDRequest {
     string location_id = 1; // Only services scheduled at or through this location will be returned.
 
     string from_time = 2; // Services scheduled up to 2 hours before the from_time may be included if they are delayed.
@@ -14,6 +14,6 @@ message SearchRequest {
     bool include_chartered_services = 6; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
 }
 
-message SearchResponse {
+message ScheduleLocationUUID {
     string schedule_location_uuid = 1; // This can be used in a DescribeAtRequest to get full details about the service.
 }

@@ -1,50 +1,41 @@
-syntax = "proto3";
+syntax = "proto3"
 option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
-message DescribeAtRequest {
+message DescribeScheduleByScheduleLocationUUIDRequest {
     string schedule_location_uuid = 1;
 }
 
-message DescribeAtResponse {
-    string location_id = 1;
-    Schedule schedule = 2;
-    ScheduleLocation schedule_location = 3;
-    optional Forecast forecast = 4;
+message ServiceDescription {
+    Schedule schedule = 1;
+    ScheduleLocation schedule_location = 2;
 
-    reserved 5 to 6;
+    reserved 3 to 12;
 
-    optional string generous_arrival_time = 7;
-    optional string generous_passing_time = 8;
-    optional string generous_departure_time = 9;
-
-    optional string platform = 10; 
-}
-
-message DisruptionReason {
-    uint32 reason_id = 1;
-    optional string reason_location_id = 2;
-    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-    // When false, the reason_id is 'at' the reason_location_id.
-    bool reason_is_near_location = 3;  
+    optional string generous_arrival_time = 13;
+    optional string generous_passing_time = 14;
+    optional string generous_departure_time = 15;
 }
 
 message Schedule {
-    string schedule_id = 1;
-    string uid = 2;
-    string headcode = 3;
-    optional string retail_service_id = 4;
-    string toc_id = 5;
-    ServiceType service_type = 6;
-    CategoryType category_type = 7;
-    bool is_passenger = 8;
-    bool is_active = 9;
-    bool is_chartered = 10;
-    bool schedule_is_cancelled = 11;
-    optional DisruptionReason schedule_cancellation_reason = 12;
-    optional string schedule_diverted_via_location_id = 13;
-    optional DisruptionReason schedule_diversion_reason = 14;
+    reserved 1 to 3;
+    string schedule_id = 4;
+    string uid = 5;
+    reserved 6 to 7;
+    string headcode = 8;
+    optional string retail_service_id = 9;
+    string toc_id = 10;
+    ServiceType service = 11;
+    CategoryType category = 12;
+    bool is_passenger_service = 13;
+    bool is_active = 14;
+    reserved 15;
+    bool is_charter = 16;
+    bool is_cancelled = 17;
+    optional DisruptionReason cancellation_reason = 18;
+    optional string diverted_via_location_id = 19;
+    optional DisruptionReason diversion_reason = 20;
 }
 
 // 'Working' times are used internally by staff
@@ -52,18 +43,23 @@ message Schedule {
 // Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
 // There is no scheduled_public_passing_time because locations through which a service passes without stopping do not need to display any times to the public.
 message ScheduleLocation {
-    repeated ActivityType activities = 1;
-    repeated ActivityType planned_activities = 2;
-    bool location_is_affected_by_diversion = 3;
-    LocationType location_type = 4;
-    optional string scheduled_working_arrival_time = 5;
-    optional string scheduled_working_passing_time = 6; 
-    optional string scheduled_working_departure_time = 7; 
-    optional string scheduled_public_arrival_time = 8; 
-    optional string scheduled_public_departure_time = 9;
-    uint32 routing_delay = 10; // in minutes
-    bool location_is_cancelled = 11;
-    optional DisruptionReason location_cancellation_reason = 12;
+    string uuid = 1;
+    reserved 2 to 4;
+    repeated ActivityType activities = 5;
+    repeated ActivityType planned_activities = 6;
+    reserved 7;
+    bool is_affected_by_diversion = 8;
+    LocationType type = 9;
+    optional string working_arrival_time = 10;
+    optional string working_passing_time = 11; 
+    optional string working_departure_time = 12;
+    optional string public_arrival_time = 13; 
+    optional string public_departure_time = 14;
+    uint32 routing_delay = 15; // in minutes
+    reserved 16;
+    bool is_cancelled = 17;
+    optional DisruptionReason location_cancellation_reason = 18;
+    reserved 19;
 }
 
 // estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
@@ -120,4 +116,12 @@ message Forecast {
 
     bool service_is_suppressed = 37;
     bool service_detatches_from_front = 38;
+}
+
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
 }
