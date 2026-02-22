@@ -14,6 +14,6 @@ message SearchRequest {
     bool include_chartered_services = 6; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
 }
 
-message ScheduleLocationUUID {
-    string schedule_location_uuid = 1; // This can be used in a DescribeAtRequest to get full details about the service.
+message SearchResponse {
+    repeated string schedule_location_uuid = 1; // These can be used in a DescribeAtRequest to get full details about the services.
 }

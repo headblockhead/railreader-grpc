@@ -8,6 +8,6 @@ import "serviceDescription.proto";
 
 service RailReader {
     rpc GetLatestLocationUpdates(LatestLocationUpdatesRequest) returns (LatestLocationUpdatesResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
-    rpc Search(SearchRequest) returns (stream ScheduleLocationUUID) {}
+    rpc Search(SearchRequest) returns (SearchResponse) {}
     rpc DescribeServicesByScheduleLocationUUID(stream DescribeServiceByScheduleLocationUUIDRequest) returns (stream ServiceDescription) {}
 }
