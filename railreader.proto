@@ -4,6 +4,7 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 import "getLatestLocationUpdates.proto";
 import "listSchedulesAtLocationID.proto";
 import "describeScheduleByScheduleLocationUUID.proto";
+import "serviceDescription.proto";
 
 service RailReader {
     rpc GetLatestLocationUpdates(LatestLocationUpdatesRequest) returns (LatestLocationUpdatesResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
