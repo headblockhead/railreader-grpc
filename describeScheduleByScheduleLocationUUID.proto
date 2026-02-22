@@ -44,7 +44,8 @@ message Schedule {
 // There is no scheduled_public_passing_time because locations through which a service passes without stopping do not need to display any times to the public.
 message ScheduleLocation {
     string uuid = 1;
-    reserved 2 to 4;
+    reserved 2 to 3;
+    string location_id = 4;
     repeated ActivityType activities = 5;
     repeated ActivityType planned_activities = 6;
     reserved 7;
