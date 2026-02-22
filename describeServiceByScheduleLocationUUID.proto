@@ -1,6 +1,6 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-message DescribeScheduleByScheduleLocationUUIDRequest {
+message DescribeServiceByScheduleLocationUUIDRequest {
     string schedule_location_uuid = 1;
 }
