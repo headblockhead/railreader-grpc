@@ -4,8 +4,7 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 import "railtypes.proto";
 
 message DescribeAtRequest {
-    string location_id = 1;
-    string schedule_id = 2;
+    string schedule_location_uuid = 1;
 }
 
 message DescribeAtResponse {

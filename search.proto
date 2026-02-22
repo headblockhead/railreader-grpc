@@ -16,5 +16,5 @@ message SearchRequest {
 }
 
 message SearchResponse {
-    string schedule_id = 1; // This can be used in a DescribeAtRequest to get full details about the service.
+    string schedule_location_uuid = 1; // This can be used in a DescribeAtRequest to get full details about the service.
 }
