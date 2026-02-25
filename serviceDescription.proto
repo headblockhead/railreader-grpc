@@ -6,13 +6,28 @@ import "railtypes.proto";
 message ServiceDescription {
     Schedule schedule = 1;
     ScheduleLocation schedule_location = 2;
+    Forecast forecast = 3;
+    Formation formation = 4;
+    FormationLoading formation_loading = 5;
+    ServiceLoading service_loading = 6;
+    TrainAlerts train_alerts = 7;
 
-    reserved 3 to 12;
+    Route forward_route = 8;
+    Route reverse_route = 9;
+
+    reserved 10 to 12;
 
     optional string generous_arrival_time = 13;
     optional string generous_passing_time = 14;
     optional string generous_departure_time = 15;
 }
+
+message Forecast { }
+message Formation { }
+message FormationLoading { }
+message ServiceLoading { }
+message TrainAlerts { }
+message Route { }
 
 message Schedule {
     reserved 1 to 3;
