@@ -10,11 +10,7 @@ message ServiceDescription {
     repeated RouteLocaion route = 3;
     string requested_schedule_location_uuid = 4;
 
-    reserved 5 to 12;
-
-    optional string generous_arrival_time = 13;
-    optional string generous_passing_time = 14;
-    optional string generous_departure_time = 15;
+    reserved 5 to 15;
 }
 
 message DisruptionReason {
@@ -56,6 +52,12 @@ message RouteLocation {
     FormationLoading formation_loading = 4;
     ServiceLoading service_loading = 5;
     TrainAlerts train_alerts = 6;
+
+    reserved 7 to 12;
+
+    optional string generous_arrival_time = 13;
+    optional string generous_passing_time = 14;
+    optional string generous_departure_time = 15;
 }
 
 // 'Working' times are used internally by staff
