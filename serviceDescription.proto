@@ -4,33 +4,30 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 import "railtypes.proto";
 
 message ServiceDescription {
-    Schedule schedule = 1;
-    ScheduleLocation schedule_location = 2;
-    Forecast forecast = 3;
-    Formation formation = 4;
-    FormationLoading formation_loading = 5;
-    ServiceLoading service_loading = 6;
-    TrainAlerts train_alerts = 7;
+    repeated Schedule schedules = 1;
+    repeated Formation formations = 2;
 
-    Route forward_route = 8;
-    Route reverse_route = 9;
+    repeated RouteLocaion route = 3;
+    string requested_schedule_location_uuid = 4;
 
-    reserved 10 to 12;
+    reserved 5 to 12;
 
     optional string generous_arrival_time = 13;
     optional string generous_passing_time = 14;
     optional string generous_departure_time = 15;
 }
 
-message Forecast { }
-message Formation { }
-message FormationLoading { }
-message ServiceLoading { }
-message TrainAlerts { }
-message Route { }
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
+}
 
 message Schedule {
-    reserved 1 to 3;
+    string uuid = 1;
+    reserved 2 to 3;
     string schedule_id = 4;
     string uid = 5;
     reserved 6 to 7;
@@ -49,17 +46,30 @@ message Schedule {
     optional DisruptionReason diversion_reason = 20;
 }
 
+message Formation { }
+
+message RouteLocation {
+    repeated string neighbouring_schedule_location_uuids = 1;
+
+    ScheduleLocation schedule_location = 2;
+    ForecastLocation forecast = 3;
+    FormationLoading formation_loading = 4;
+    ServiceLoading service_loading = 5;
+    TrainAlerts train_alerts = 6;
+}
+
 // 'Working' times are used internally by staff
 // 'Public' times are used for display to passengers
 // Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
 // There is no scheduled_public_passing_time because locations through which a service passes without stopping do not need to display any times to the public.
 message ScheduleLocation {
     string uuid = 1;
-    reserved 2 to 3;
+    string schedule_uuid = 2;
+    reserved 3;
     string location_id = 4;
     repeated ActivityType activities = 5;
     repeated ActivityType planned_activities = 6;
-    reserved 7;
+    optional string formation_id = 7;
     bool is_affected_by_diversion = 8;
     LocationType type = 9;
     optional string working_arrival_time = 10;
@@ -74,10 +84,15 @@ message ScheduleLocation {
     reserved 19;
 }
 
+message ForecastLocation {}
+message FormationLoading { }
+message ServiceLoading { }
+message TrainAlerts { }
+
 // estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
 // estimated_minimum_*_time is Darwin's estimation of the first possible times.
 // actual_*_time are time reports from the physical train
-message Forecast {
+message Forecast { // UNUSED: NEEDS REFACTORING
     bool is_reverse_formation = 1;
     optional DisruptionReason schedule_late_reason = 2;
 
@@ -128,12 +143,4 @@ message Forecast {
 
     bool service_is_suppressed = 37;
     bool service_detatches_from_front = 38;
-}
-
-message DisruptionReason {
-    uint32 reason_id = 1;
-    optional string reason_location_id = 2;
-    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-    // When false, the reason_id is 'at' the reason_location_id.
-    bool reason_is_near_location = 3;  
 }

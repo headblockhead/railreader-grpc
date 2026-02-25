@@ -15,5 +15,5 @@ message SearchRequest {
 }
 
 message SearchResponse {
-    repeated string schedule_location_uuid = 1; // These can be used in a DescribeAtRequest to get full details about the services.
+    repeated string schedule_location_uuid = 1; // These can be used in a DescribeServiceByScheduleLocationUUIDRequest to get full details about the services.
 }
