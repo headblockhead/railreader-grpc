@@ -45,15 +45,18 @@ message Schedule {
 message Formation { }
 
 message RouteLocation {
-    repeated string neighbouring_schedule_location_uuids = 1;
+    repeated string next_schedule_location_uuids = 1;
+    repeated string previous_schedule_location_uuids = 2;
 
-    ScheduleLocation schedule_location = 2;
-    ForecastLocation forecast = 3;
-    FormationLoading formation_loading = 4;
-    ServiceLoading service_loading = 5;
-    TrainAlerts train_alerts = 6;
+    reserved 3 to 4;
 
-    reserved 7 to 12;
+    ScheduleLocation schedule_location = 5;
+    ForecastLocation forecast = 6;
+    FormationLoading formation_loading = 7;
+    ServiceLoading service_loading = 8;
+    TrainAlerts train_alerts = 9;
+
+    reserved 10 to 12;
 
     optional string generous_arrival_time = 13;
     optional string generous_passing_time = 14;
