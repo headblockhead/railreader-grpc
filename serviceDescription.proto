@@ -70,7 +70,7 @@ message RouteLocation {
 message ScheduleLocation {
     string uuid = 1;
     string schedule_uuid = 2;
-    reserved 3;
+    uint32 schedule_order = 3;
     string location_id = 4;
     repeated ActivityType activities = 5;
     repeated ActivityType planned_activities = 6;
@@ -83,7 +83,7 @@ message ScheduleLocation {
     optional string public_arrival_time = 13; 
     optional string public_departure_time = 14;
     uint32 routing_delay = 15; // in minutes
-    reserved 16;
+    optional string false_destination_location_id = 16;
     bool is_cancelled = 17;
     optional DisruptionReason location_cancellation_reason = 18;
     reserved 19;
