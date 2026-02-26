@@ -7,7 +7,7 @@ message ServiceDescription {
     repeated Schedule schedules = 1;
     repeated Formation formations = 2;
 
-    repeated RouteLocaion route = 3;
+    repeated RouteLocation route = 3;
     string requested_schedule_location_uuid = 4;
 
     reserved 5 to 15;
