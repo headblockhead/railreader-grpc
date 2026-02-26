@@ -8,9 +8,8 @@ message ServiceDescription {
     repeated Formation formations = 2;
 
     repeated RouteLocation route = 3;
-    string requested_schedule_location_uuid = 4;
 
-    reserved 5 to 15;
+    reserved 4 to 15;
 }
 
 message DisruptionReason {
@@ -51,16 +50,13 @@ message RouteLocation {
     reserved 3 to 4;
 
     ScheduleLocation schedule_location = 5;
-    ForecastLocation forecast = 6;
-    FormationLoading formation_loading = 7;
-    ServiceLoading service_loading = 8;
-    TrainAlerts train_alerts = 9;
+    reserved 6 to 9;
+    /*optional ForecastLocation forecast = 6;*/
+    /*optional FormationLoading formation_loading = 7;*/
+    /*optional ServiceLoading service_loading = 8;*/
+    /*optional TrainAlerts train_alerts = 9;*/
 
-    reserved 10 to 12;
-
-    optional string generous_arrival_time = 13;
-    optional string generous_passing_time = 14;
-    optional string generous_departure_time = 15;
+    reserved 10 to 15;
 }
 
 // 'Working' times are used internally by staff
@@ -86,13 +82,13 @@ message ScheduleLocation {
     optional string false_destination_location_id = 16;
     bool is_cancelled = 17;
     optional DisruptionReason location_cancellation_reason = 18;
-    reserved 19;
+    optional string timetabled_platform = 19;
 }
 
-message ForecastLocation {}
-message FormationLoading { }
-message ServiceLoading { }
-message TrainAlerts { }
+/*message ForecastLocation {}*/
+/*message FormationLoading { }*/
+/*message ServiceLoading { }*/
+/*message TrainAlerts { }*/
 
 // estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
 // estimated_minimum_*_time is Darwin's estimation of the first possible times.
