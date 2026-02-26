@@ -57,7 +57,10 @@ message RouteLocation {
     /*optional ServiceLoading service_loading = 8;*/
     /*optional TrainAlerts train_alerts = 9;*/
 
-    reserved 10 to 15;
+    reserved 10 to 12;
+    optional string generous_arrival_time = 13;
+    optional string generous_passing_time = 14;
+    optional string generous_departure_time = 15;
 }
 
 // 'Working' times are used internally by staff
