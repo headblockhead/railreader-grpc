@@ -8,8 +8,9 @@ message ServiceDescription {
     repeated Formation formations = 2;
 
     repeated RouteLocation route = 3;
+    string requested_schedule_location_uuid = 4;
 
-    reserved 4 to 15;
+    reserved 5 to 15;
 }
 
 message DisruptionReason {
