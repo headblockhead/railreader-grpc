@@ -1,8 +1,6 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-import "railtypes.proto";
-
 message SearchRequest {
     string location_id = 1; // Only services scheduled at or through this location will be returned.
 
@@ -12,8 +10,4 @@ message SearchRequest {
     bool include_non_passenger_services = 4; // If true, all services will be included. If false or unspecified, only passenger services will be included.
     bool exclude_non_active_services = 5; // If true, only active services will be included. Be warned: this excludes most historical data. If false or unspecified, all services will be included.
     bool include_chartered_services = 6; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
-}
-
-message SearchResponse {
-    repeated string schedule_location_uuid = 1; // These can be used in a DescribeServiceByScheduleLocationUUIDRequest to get full details about the services.
 }

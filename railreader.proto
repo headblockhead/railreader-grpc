@@ -1,13 +1,14 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
-import "getLatestLocationUpdates.proto";
-import "search.proto";
-import "describeServiceByScheduleLocationUUID.proto";
-import "serviceDescription.proto";
+import "updateLocationsRequest.proto";
+import "updateLocationsResponse.proto";
+import "searchRequest.proto";
+import "searchResponse.proto";
+import "describeResponse.proto";
 
 service RailReader {
-    rpc GetLatestLocationUpdates(LatestLocationUpdatesRequest) returns (LatestLocationUpdatesResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
+    rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
     rpc Search(SearchRequest) returns (SearchResponse) {}
-    rpc DescribeServicesByScheduleLocationUUID(stream DescribeServiceByScheduleLocationUUIDRequest) returns (stream ServiceDescription) {}
+    rpc Describe(stream SearchResponse) returns (stream DescribeResponse) {}
 }

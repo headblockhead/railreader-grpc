@@ -1,0 +1,6 @@
+syntax = "proto3";
+option go_package = "github.com/headblockhead/railreader-grpc";
+
+message SearchResponse {
+    repeated string schedule_location_uuid = 1;
+}
