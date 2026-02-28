@@ -55,7 +55,7 @@ message DescribeResponse {
                     ASSOCIATION_CATEGORY_LINK = 3;
                     ASSOCIATION_CATEGORY_NEXT = 4;
                 }
-                string associated_schedule_location_uuid = 1;
+                string schedule_location_uuid = 1;
                 AssociationCategory association_category = 2;
                 bool is_cancelled = 3;
             }
