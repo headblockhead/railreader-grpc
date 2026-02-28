@@ -3,14 +3,15 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
+}
+
 message DescribeResponse {
-    message DisruptionReason {
-        uint32 reason_id = 1;
-        optional string reason_location_id = 2;
-        // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-        // When false, the reason_id is 'at' the reason_location_id.
-        bool reason_is_near_location = 3;  
-    }
 
     message Schedule {
         string uuid = 1;
