@@ -12,7 +12,6 @@ message DisruptionReason {
 }
 
 message DescribeResponse {
-
     message Schedule {
         string uuid = 1;
         reserved 2 to 3;
@@ -33,13 +32,11 @@ message DescribeResponse {
         optional string diverted_via_location_id = 19;
         optional DisruptionReason diversion_reason = 20;
     }
-
     repeated Schedule schedules = 1;
 
     message Formation {
 
     }
-
     repeated Formation formations = 2;
 
     message RouteLocation {
@@ -48,13 +45,6 @@ message DescribeResponse {
                 string schedule_location_uuid = 1;
             }
             message AssociationEdge {
-                enum AssociationCategory {
-                    ASSOCIATION_CATEGORY_UNKNOWN = 0;
-                    ASSOCIATION_CATEGORY_JOIN = 1;
-                    ASSOCIATION_CATEGORY_DIVIDE = 2;
-                    ASSOCIATION_CATEGORY_LINK = 3;
-                    ASSOCIATION_CATEGORY_NEXT = 4;
-                }
                 string schedule_location_uuid = 1;
                 AssociationCategory association_category = 2;
                 bool is_cancelled = 3;
@@ -64,7 +54,6 @@ message DescribeResponse {
                 AssociationEdge association_edge = 2;
             }
         }
-    
         repeated RouteLocationEdge next_edges = 1;
         repeated RouteLocationEdge previous_edges = 2;
     
@@ -105,72 +94,16 @@ message DescribeResponse {
             optional DisruptionReason location_cancellation_reason = 18;
             optional string timetabled_platform = 19;
         }
-    
         ScheduleLocation schedule_location = 5;
     
         reserved 6 to 11;
+
         optional string current_platform = 12;
         optional string generous_arrival_time = 13;
         optional string generous_passing_time = 14;
         optional string generous_departure_time = 15;
     }
-
     repeated RouteLocation route = 3;
+
     string requested_schedule_location_uuid = 4;
-}
-
-// estimated_public_*_time and estimated_working_*_time are Darwin's estimations of the most likely times.
-// estimated_minimum_*_time is Darwin's estimation of the first possible times.
-// actual_*_time are time reports from the physical train
-message Forecast { // UNUSED: NEEDS REFACTORING
-    bool is_reverse_formation = 1;
-    optional DisruptionReason schedule_late_reason = 2;
-
-    optional string estimated_public_arrival_time = 3; 
-    optional string estimated_working_arrival_time = 4;
-    optional string estimated_minimum_arrival_time = 5;
-    optional bool arrival_is_delayed = 6;
-    optional bool arrival_is_delayed_by_unknown_amount = 7;
-    optional string estimated_passing_time = 8;
-    optional string estimated_minimum_passing_time = 9;
-    optional bool passing_is_delayed = 10;
-    optional bool passing_is_delayed_by_unknown_amount = 11;
-    optional string estimated_public_departure_time = 12; 
-    optional string estimated_working_departure_time = 13;
-    optional string estimated_minimum_departure_time = 14;
-    optional bool departure_is_delayed = 15;
-    optional bool departure_is_delayed_by_unknown_amount = 16;
-
-    optional string actual_arrival_time = 17;
-    optional string actual_arrival_data_class = 18;
-    optional string actual_arrival_data_source = 19;
-    optional string actual_arrival_data_source_system = 20;
-    optional string actual_passing_time = 21; 
-    optional string actual_passing_data_class = 22;
-    optional string actual_passing_data_source = 23;
-    optional string actual_passing_data_source_system = 24;
-    optional string actual_departure_time = 25; 
-    optional string actual_departure_data_class = 26;
-    optional string actual_departure_data_source = 27;
-    optional string actual_departure_data_source_system = 28;
-  
-    optional DisruptionReason location_late_reason = 29;
-    optional string location_disruption_risk = 30;
-    optional DisruptionReason location_disruption_risk_reason = 31;
-
-    optional string affected_by = 32;
-
-    optional bool platform_is_suppressed = 33; // do not display platform information if true
-    optional bool platform_is_suppressed_by_cis = 34;
-    enum PlatformDataSource {
-        PLATFORM_DATA_SOURCE_PLATFORM_UNKNOWN = 0;
-        PLATFORM_DATA_SOURCE_PLATFORM_PLANNED = 1;
-        PLATFORM_DATA_SOURCE_PLATFORM_AUTOMATIC = 2;
-        PLATFORM_DATA_SOURCE_PLATFORM_MANUAL = 3;
-    }
-    optional PlatformDataSource platform_data_source = 35;
-    optional bool platform_is_confirmed = 36;
-
-    bool service_is_suppressed = 37;
-    bool service_detatches_from_front = 38;
 }
