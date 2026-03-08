@@ -73,7 +73,7 @@ message DescribeResponse {
 
         message ForecastLocation {
             reserved 1 to 8;
-            message TimeData {
+            message Times {
                 optional string estimated_public_time = 1;
                 optional string estimated_working_time = 2;
                 optional string minimum_estimated_time = 3;
@@ -84,13 +84,13 @@ message DescribeResponse {
                 optional string source = 8;
                 optional string source_system = 9;
             }
-            optional TimeDate arrival = 1;
-            optional TimeDate passing = 2;
-            optional TimeDate departure = 3;
-            optional DisruptionReason late_reason = 4;
-            optional string disruption_risk = 5;
-            optional DisruptionReason disruption_risk_reason = 6;
-            optional string affected_by = 7;
+            optional Times arrival = 9;
+            optional Times passing = 10;
+            optional Times departure = 11;
+            optional DisruptionReason late_reason = 12;
+            optional string disruption_risk = 13;
+            optional DisruptionReason disruption_risk_reason = 14;
+            optional string affected_by = 15;
             message Platform {
                 bool is_suppressed = 1;
                 bool is_manually_suppressed_by_cis = 2;
@@ -98,9 +98,9 @@ message DescribeResponse {
                 bool is_confirmed = 4;
                 string platform = 5;
             }
-            optional Platform forecast_platform = 8;
-            bool service_is_suppressed_here = 9;
-            bool service_detaches_from_front_here = 10;
+            optional Platform forecast_platform = 16;
+            bool service_is_suppressed_here = 17;
+            bool service_detaches_from_front_here = 18;
         }
         optional ForecastLocation forecast_location = 4;
 
