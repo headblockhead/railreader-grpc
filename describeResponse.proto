@@ -3,15 +3,9 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 import "railtypes.proto";
 
-message DisruptionReason {
-    uint32 reason_id = 1;
-    optional string reason_location_id = 2;
-    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
-    // When false, the reason_id is 'at' the reason_location_id.
-    bool reason_is_near_location = 3;  
-}
-
 message DescribeResponse {
+    string requested_schedule_location_uuid = 1;
+
     message Schedule {
         string uuid = 1;
         reserved 2 to 3;
@@ -32,33 +26,97 @@ message DescribeResponse {
         optional string diverted_via_location_id = 19;
         optional DisruptionReason diversion_reason = 20;
     }
-    repeated Schedule schedules = 1;
+    repeated Schedule schedules = 2;
+
+    message Forecast {
+        string schedule_uuid = 1;
+        bool is_reverse_formation = 2;
+        optional DisruptionReason late_reason = 3;
+    }
+    repeated Forecast forecasts = 3;
 
     message Formation {
-
+        reserved 1 to 3;
+        string formation_id = 4;
+        optional string source = 5;
+        optional string source_system = 6;
+        message Coach {
+            reserved 1;
+            string identifier = 2;
+            optional string class = 3;
+            string toilet_type = 4;
+            string toilet_status = 5;
+        }
+        repeated Coach coaches = 7;
     }
-    repeated Formation formations = 2;
+    repeated Formation formations = 4;
 
     message RouteLocation {
-        message RouteLocationEdge {
-            message ScheduleEdge {
+        message Edge {
+            message Schedule {
                 string schedule_location_uuid = 1;
             }
-            message AssociationEdge {
+            message Association {
                 string schedule_location_uuid = 1;
                 AssociationCategory association_category = 2;
                 bool is_cancelled = 3;
             }
             oneof edge {
-                ScheduleEdge schedule_edge = 1;
-                AssociationEdge association_edge = 2;
+                Schedule schedule = 1;
+                Association association = 2;
             }
         }
-        repeated RouteLocationEdge next_edges = 1;
-        repeated RouteLocationEdge previous_edges = 2;
-    
-        reserved 3 to 4;
-    
+        repeated Edge next_edges = 1;
+        repeated Edge previous_edges = 2;
+
+        optional string via_text = 3;
+
+        message ForecastLocation {
+            reserved 1 to 8;
+            message TimeData {
+                optional string estimated_public_time = 1;
+                optional string estimated_working_time = 2;
+                optional string minimum_estimated_time = 3;
+                bool estimation_manually_set_to_delayed = 4;
+                bool estimated_as_delayed = 5;
+                optional string actual_time = 6;
+                optional string actual_time_class = 7;
+                optional string source = 8;
+                optional string source_system = 9;
+            }
+            optional TimeDate arrival = 1;
+            optional TimeDate passing = 2;
+            optional TimeDate departure = 3;
+            optional DisruptionReason late_reason = 4;
+            optional string disruption_risk = 5;
+            optional DisruptionReason disruption_risk_reason = 6;
+            optional string affected_by = 7;
+            message Platform {
+                bool is_suppressed = 1;
+                bool is_manually_suppressed_by_cis = 2;
+                string source = 3;
+                bool is_confirmed = 4;
+                string platform = 5;
+            }
+            optional Platform forecast_platform = 8;
+            bool service_is_suppressed_here = 9;
+            bool service_detaches_from_front_here = 10;
+        }
+        optional ForecastLocation forecast_location = 4;
+
+        message FormationLoading {
+            reserved 1 to 10;
+            message Coach {
+                reserved 1;
+                string identifier = 2;
+                optional string source = 3;
+                optional string source_system = 4;
+                uint32 percentage_load = 5;
+            }
+            repeated Coach coaches = 11;
+        }  
+        optional FormationLoading formation_loading = 5;
+  
         // 'Working' times are used internally by staff
         // 'Public' times are used for display to passengers
         // Working and Public timetables may differ, typically to allow services to experience very minor (30 to 60s) delays without appearing late to the public.
@@ -72,17 +130,17 @@ message DescribeResponse {
             repeated ActivityType planned_activities = 6;
             optional string formation_id = 7;
             bool is_affected_by_diversion = 8;
-            enum LocationType {
-                LOCATION_TYPE_LOCATION_UNKNOWN = 0;
-                LOCATION_TYPE_LOCATION_ORIGIN = 1;
-                LOCATION_TYPE_LOCATION_OPERATIONAL_ORIGIN = 2;
-                LOCATION_TYPE_LOCATION_INTERMEDIATE = 3;
-                LOCATION_TYPE_LOCATION_OPERATIONAL_INTERMEDIATE = 4;
-                LOCATION_TYPE_LOCATION_INTERMEDIATE_PASSING = 5;
-                LOCATION_TYPE_LOCATION_DESTINATION = 6;
-                LOCATION_TYPE_LOCATION_OPERATIONAL_DESTINATION = 7;
+            enum Type {
+                TYPE_LOCATION_UNKNOWN = 0;
+                TYPE_LOCATION_ORIGIN = 1;
+                TYPE_LOCATION_OPERATIONAL_ORIGIN = 2;
+                TYPE_LOCATION_INTERMEDIATE = 3;
+                TYPE_LOCATION_OPERATIONAL_INTERMEDIATE = 4;
+                TYPE_LOCATION_INTERMEDIATE_PASSING = 5;
+                TYPE_LOCATION_DESTINATION = 6;
+                TYPE_LOCATION_OPERATIONAL_DESTINATION = 7;
             }
-            LocationType type = 9;
+            Type type = 9;
             optional string working_arrival_time = 10;
             optional string working_passing_time = 11; 
             optional string working_departure_time = 12;
@@ -94,16 +152,48 @@ message DescribeResponse {
             optional DisruptionReason location_cancellation_reason = 18;
             optional string timetabled_platform = 19;
         }
-        ScheduleLocation schedule_location = 5;
-    
-        reserved 6 to 11;
+        ScheduleLocation schedule_location = 6;
+
+        message ServiceLoading {
+            reserved 1 to 9;
+            enum Type {
+                TYPE_LOADING_UNKNOWN = 0;
+                TYPE_LOADING_TYPICAL = 1;
+                TYPE_LOADING_EXPECTED = 2;
+            } 
+            message Category {
+                string code = 1;
+                optional string source = 2;
+                optional string source_system = 3;
+                Type type = 4;
+            }
+            optional Category category = 10;
+            message Percentage {
+                uint32 percentage_load = 1;
+                optional string source = 2;
+                optional string source_system = 3;
+                Type type = 4;
+            }
+            optional Percentage percentage = 11;
+        }
+        optional ServiceLoading service_loading = 7;
+
+        // TODO: Train alerts
+        reserved 8 to 11;
 
         optional string current_platform = 12;
         optional string generous_arrival_time = 13;
         optional string generous_passing_time = 14;
         optional string generous_departure_time = 15;
     }
-    repeated RouteLocation route = 3;
 
-    string requested_schedule_location_uuid = 4;
+    repeated RouteLocation route = 5;
+}
+
+message DisruptionReason {
+    uint32 reason_id = 1;
+    optional string reason_location_id = 2;
+    // When true, the provided reason_id is 'near to' the provided reason_location_id. 
+    // When false, the reason_id is 'at' the reason_location_id.
+    bool reason_is_near_location = 3;  
 }
