@@ -25,15 +25,15 @@ message DescribeResponse {
         optional DisruptionReason cancellation_reason = 18;
         optional string diverted_via_location_id = 19;
         optional DisruptionReason diversion_reason = 20;
+
+        message Forecast {
+            reserved 1 to 3;
+            bool is_reverse_formation = 4;
+            optional DisruptionReason late_reason = 5;
+        }
+        optional Forecast forecast = 21;
     }
     repeated Schedule schedules = 2;
-
-    message Forecast {
-        string schedule_uuid = 1;
-        bool is_reverse_formation = 2;
-        optional DisruptionReason late_reason = 3;
-    }
-    repeated Forecast forecasts = 3;
 
     message Formation {
         reserved 1 to 3;
@@ -49,7 +49,7 @@ message DescribeResponse {
         }
         repeated Coach coaches = 7;
     }
-    repeated Formation formations = 4;
+    repeated Formation formations = 3;
 
     message RouteLocation {
         message Edge {
@@ -186,8 +186,7 @@ message DescribeResponse {
         optional string generous_passing_time = 14;
         optional string generous_departure_time = 15;
     }
-
-    repeated RouteLocation route = 5;
+    repeated RouteLocation route = 4;
 }
 
 message DisruptionReason {
