@@ -124,7 +124,7 @@ message DescribeResponse {
         message ScheduleLocation {
             string uuid = 1;
             string schedule_uuid = 2;
-            uint32 schedule_order = 3;
+            reserved 3;
             string location_id = 4;
             repeated ActivityType activities = 5;
             repeated ActivityType planned_activities = 6;
