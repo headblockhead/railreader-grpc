@@ -91,6 +91,7 @@ message DescribeResponse {
             optional string disruption_risk = 13;
             optional DisruptionReason disruption_risk_reason = 14;
             optional string affected_by = 15;
+            optional uint32 forecast_length = 16;
             message Platform {
                 bool is_suppressed = 1;
                 bool is_manually_suppressed_by_cis = 2;
@@ -98,9 +99,9 @@ message DescribeResponse {
                 bool is_confirmed = 4;
                 string platform = 5;
             }
-            optional Platform forecast_platform = 16;
-            bool service_is_suppressed_here = 17;
-            bool service_detaches_from_front_here = 18;
+            optional Platform forecast_platform = 17;
+            bool service_is_suppressed_here = 18;
+            bool service_detaches_from_front_here = 19;
         }
         optional ForecastLocation forecast_location = 4;
 
