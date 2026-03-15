@@ -180,9 +180,8 @@ message DescribeResponse {
         optional ServiceLoading service_loading = 7;
 
         // TODO: Train alerts
-        reserved 8 to 11;
+        reserved 8 to 12;
 
-        optional string current_platform = 12;
         optional string generous_arrival_time = 13;
         optional string generous_passing_time = 14;
         optional string generous_departure_time = 15;
