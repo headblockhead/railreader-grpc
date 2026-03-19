@@ -45,13 +45,13 @@ message DescribeResponse {
             string identifier = 2;
             optional string class = 3;
             message Toilet {
-                string toilet_type = 1;
+                string type = 1;
                 enum Status {
                     STATUS_UNKNOWN = 0;
                     STATUS_IN_SERVICE = 1;
                     STATUS_NOT_IN_SERVICE = 2;
                 }
-                Status toilet_status = 2;
+                Status status = 2;
             }
             optional Toilet toilet = 4;
         }
