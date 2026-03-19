@@ -44,8 +44,16 @@ message DescribeResponse {
             reserved 1;
             string identifier = 2;
             optional string class = 3;
-            string toilet_type = 4;
-            string toilet_status = 5;
+            message Toilet {
+                string toilet_type = 1;
+                enum Status {
+                    STATUS_UNKNOWN = 0;
+                    STATUS_IN_SERVICE = 1;
+                    STATUS_NOT_IN_SERVICE = 2;
+                }
+                Status toilet_status = 2;
+            }
+            optional Toilet toilet = 4;
         }
         repeated Coach coaches = 7;
     }
