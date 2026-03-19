@@ -53,7 +53,7 @@ message DescribeResponse {
                 }
                 Status status = 2;
             }
-            optional Toilet toilet = 4;
+            optional Toilet toilet_data = 4;
         }
         repeated Coach coaches = 7;
     }
