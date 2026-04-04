@@ -2,12 +2,28 @@ syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
 message SearchRequest {
-    string location_id = 1; // Only services scheduled at or through this location will be returned.
+        // Only services scheduled at or through this location will be returned.
+                oneof location {
+                    string tiploc = 1;
+                    string crs = 2; // A CRS is a 3-letter passenger-facing code that can represent more than one TIPLOC.
+                }
 
-    string from_time = 2; // Services scheduled up to 2 hours before the from_time may be included if they are delayed.
-    string to_time = 3; // Services scheduled up to 2 hours after the to_time may be included if they are early.
+    string from_time = 3; // Services scheduled up to 2 hours before the from_time may be included if they are delayed.
+    string to_time = 4; // Services scheduled up to 2 hours after the to_time may be included if they are early.
 
-    bool include_non_passenger_services = 4; // If true, all services will be included. If false or unspecified, only passenger services will be included.
-    bool exclude_non_active_services = 5; // If true, only active services will be included. Be warned: this excludes most historical data. If false or unspecified, all services will be included.
-    bool include_chartered_services = 6; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
+    bool include_non_passenger_services = 5; // If true, all services will be included. If false or unspecified, only passenger services will be included.
+    bool exclude_non_active_services = 6; // If true, only active services will be included. If false or unspecified, all services will be included. A service being "inactive" indicates that it is unlikely to recieve any future data updates (altough this is not a guarentee), and/or that the train is not expected to run.
+    bool include_chartered_services = 7; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
+  
+        enum Type {
+          TYPE_UNKNOWN
+          TYPE_ARRIVALS
+          TYPE_PASSING
+          TYPE_DEPARTURES
+        }
+        optional Type type = 8; // If specified, only services that arrival/pass/depart the location will be included. If unspecified, all services will be included
+
+    repeated Location must_visit = 9; // If any are specified, only services that include all of these locations in their route will be returned. If unspecified, all services will be included.
+
+
 }
