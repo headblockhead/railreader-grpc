@@ -1,6 +1,7 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
+import "railtypes.proto";
 import "darwin.proto";
 
 message RouteLocation {
