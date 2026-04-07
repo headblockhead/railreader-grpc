@@ -14,5 +14,5 @@ message OverviewResponse {
     RouteLocation current_route_location = 4;
 
     repeated RouteLocation origin_route_locations = 5;
-    repeated RouteLocaiton destination_route_locations = 6;
+    repeated RouteLocation destination_route_locations = 6;
 }
