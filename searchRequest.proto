@@ -3,7 +3,7 @@ option go_package = "github.com/headblockhead/railreader-grpc";
 
 message SearchRequest {
         // Only services scheduled at or through this location will be returned.
-                oneof location {
+           oneof location {
                     string tiploc = 1;
                     string crs = 2; // A CRS is a 3-letter passenger-facing code that can represent more than one TIPLOC.
                 }
@@ -16,14 +16,12 @@ message SearchRequest {
     bool include_chartered_services = 7; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
   
         enum Type {
-          TYPE_UNKNOWN
-          TYPE_ARRIVALS
-          TYPE_PASSING
-          TYPE_DEPARTURES
+          TYPE_UNKNOWN = 0;
+          TYPE_ARRIVALS = 1;
+          TYPE_PASSING = 2;
+          TYPE_DEPARTURES = 3;
         }
         optional Type type = 8; // If specified, only services that arrival/pass/depart the location will be included. If unspecified, all services will be included
 
-    repeated Location must_visit = 9; // If any are specified, only services that include all of these locations in their route will be returned. If unspecified, all services will be included.
-
-
+    repeated string must_visit_tiplocs = 9; // If any are specified, only services that include all of these TIPLOCs in their route will be returned. If unspecified, all services will be included.
 }
