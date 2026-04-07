@@ -131,7 +131,7 @@ message DisruptionReason {
                 TYPE_LOCATION_OPERATIONAL_DESTINATION = 7;
             }
             Type type = 10;
-            optional string working_arrival_time = 12;
+            optional string working_arrival_time = 11;
             optional string working_passing_time = 12; 
             optional string working_departure_time = 13;
             optional string public_arrival_time = 14; 
