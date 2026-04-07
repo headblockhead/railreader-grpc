@@ -2,5 +2,5 @@ syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
 message OverviewRequest {
-    string schedule_location_computed_id = 1;
+    bytes schedule_location_computed_id = 1;
 }

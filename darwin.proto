@@ -113,7 +113,7 @@ message DisruptionReason {
         message ScheduleLocation {
             reserved 1;
             string schedule_uuid = 2;
-            string computed_id = 3;
+            bytes computed_id = 3;
             reserved 4;
             string location_id = 5;
             repeated ActivityType activities = 6;

@@ -7,10 +7,10 @@ import "darwin.proto";
 message RouteLocation {
         message Edge {
             message Schedule {
-                string schedule_location_computed_id = 1;
+                bytes schedule_location_computed_id = 1;
             }
             message Association {
-                string schedule_location_computed_id = 1;
+                bytes schedule_location_computed_id = 1;
                 AssociationCategory association_category = 2;
                 bool is_cancelled = 3;
             }
