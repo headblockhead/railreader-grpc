@@ -11,14 +11,14 @@ message SearchRequest {
     bool include_non_passenger_services = 5; // If true, all services will be included. If false or unspecified, only passenger services will be included.
     bool exclude_non_active_services = 6; // If true, only active services will be included. If false or unspecified, all services will be included. A service being "inactive" indicates that it is unlikely to recieve any future data updates (altough this is not a guarentee), and/or that the train is not expected to run.
     bool include_chartered_services = 7; // If true, all services will be included. If false or unspecified, only non-chartered services will be included. 
-  
-        enum Type {
-          TYPE_UNKNOWN = 0;
-          TYPE_ARRIVALS = 1;
-          TYPE_PASSING = 2;
-          TYPE_DEPARTURES = 3;
-        }
-        optional Type type = 8; // If specified, only services that arrival/pass/depart the location will be included. If unspecified, all services will be included
+ 
+    enum Type {
+      TYPE_UNKNOWN = 0;
+      TYPE_ARRIVALS = 1;
+      TYPE_PASSING = 2;
+      TYPE_DEPARTURES = 3;
+    }
+    optional Type type = 8; // If specified, only services that arrival/pass/depart the location will be included. If unspecified, all services will be included
 
     repeated string must_stop_at_passenger_tiplocs = 9; // If any are specified, only services that have a passenger stop at all of these TIPLOCs in their route (onward if type=DEPARTURES OR type=PASSING, backward if type=ARRIVALS, both directions otherwise) will be returned. If unspecified, all services will be included.
     repeated string must_visit_tiplocs = 10; // If any are specified, only services that visit all of these TIPLOCs in their route (onward if type=DEPARTURES OR type=PASSING, backward if type=ARRIVALS, both directions otherwise) will be returned. If unspecified, all services will be included.

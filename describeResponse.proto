@@ -12,4 +12,7 @@ message DescribeResponse {
     repeated Formation formations = 3;
 
     repeated RouteLocation route = 4;
+
+    repeated bytea origin_computed_ids = 5;
+    repeated bytea destination_computed_ids = 6;
 }
