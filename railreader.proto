@@ -5,8 +5,6 @@ import "updateLocationsRequest.proto";
 import "updateLocationsResponse.proto";
 import "searchRequest.proto";
 import "searchResponse.proto";
-import "overviewRequest.proto";
-import "overviewResponse.proto";
 import "describeRequest.proto";
 import "describeResponse.proto";
 
