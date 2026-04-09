@@ -14,7 +14,7 @@ message SearchResponse {
     message ServiceOverview {
         RouteLocation route_location = 1; // The entry in the service's route that matches the "at" location in the request.
         Schedule schedule = 2; // The schedule data for the route location.
-        Formation formation = 3; // The formation data for the route location.
+        optional Formation formation = 3; // The formation data for the route location.
 
         repeated RouteLocation origin_route_locations = 4; // The route location(s) that the service has as origins. Multiple origins may be provided when two schedules have joined previously in the service's route.
         repeated RouteLocation destination_route_locations = 5; // The route location(s) that the service has as destinations. Multiple destinations may be provided when a schedule will divide later in the service's route.
