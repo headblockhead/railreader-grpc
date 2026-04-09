@@ -21,6 +21,9 @@ message SearchResponse {
 
         repeated RouteLocation must_stop_at_passenger_route_locations = 6; // The route locations(s) in the service matching the "must_stop_at_passenger_location_ids" set in the request (if any) are given here.
         repeated RouteLocation must_visit_route_locations = 7; // The route location(s) in the service matching the "must_visit_location_ids" set in the request (if any) are given here.
+        bool arrival = 8;
+        bool passing = 9;
+        bool departure = 10;
     }
     oneof response {
         Metadata metadata = 1;
