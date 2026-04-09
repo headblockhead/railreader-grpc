@@ -11,8 +11,7 @@ import "describeRequest.proto";
 import "describeResponse.proto";
 
 service RailReader {
-    rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {} // Call this method at least once after passing ~03:30AM each day to keep your locations list up-to-date.
-    rpc Search(SearchRequest) returns (SearchResponse) {}
-    rpc Overview(stream OverviewRequest) returns (stream OverviewResponse) {}
-    rpc Describe(stream DescribeRequest) returns (stream DescribeResponse) {}
+    rpc UpdateLocations(UpdateLocationsRequest) returns (UpdateLocationsResponse) {} // Keep your location data list up-to-date. Call at least once per day.
+    rpc Search(SearchRequest) returns (stream SearchResponse) {} // Search for train services. Designed to occupy minimal bandwidth.
+    rpc Describe(stream DescribeRequest) returns (stream DescribeResponse) {} // Get detailed information about specific train service(s).
 }

@@ -5,14 +5,15 @@ import "describeRequest.proto";
 import "darwin.proto";
 import "routeLocation.proto";
 
+// DescribeResponse is sent n times, where n represents the number of DescribeRequests received.
 message DescribeResponse {
-    DescribeRequest request = 1;
+    DescribeRequest request = 1; // The request being answered.
 
-    repeated Schedule schedules = 2;
-    repeated Formation formations = 3;
+    repeated Schedule schedules = 2; // All schedules that form the service being described. A service may have multiple schedules if a schedule joins, divides, or links with other schedules.
+    repeated Formation formations = 3; // All formation data (if any) that is given about the service being described. A service may have multiple formations if it loses or gains coaches during its route, or if multiple schedules that form the service have different formations.
 
-    repeated RouteLocation route = 4;
+    repeated RouteLocation route = 4; // A graph of all route entries that form the service being described.
 
-    repeated bytes origin_computed_ids = 5;
-    repeated bytes destination_computed_ids = 6;
+    repeated bytes origin_schedule_location_computed_ids = 5; // The schedule_location.computed_ids of the RouteLocations that the service has as origins. Multiple origins may be provided when two schedules have joined previously in the service's route.
+    repeated bytes destination_schedule_location_computed_ids = 6; // The schedule_location.computed_ids of the RouteLocations that the service has as destinations. Multiple destinations may be provided when a schedule will divide later in the service's route.
 }

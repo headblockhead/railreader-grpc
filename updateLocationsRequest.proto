@@ -1,6 +1,7 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
+// UpdateLocationsRequest is sent once.
 message UpdateLocationsRequest {
-    optional string current_reference_file_id = 1; // If not specified, all updates will be returned.
+    optional string current_reference_file_id = 1; // If specified, only location updates occurring after this file_id will be returned. If unspecified, all updates will be returned.
 }

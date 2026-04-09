@@ -1,6 +1,8 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
+// DescribeRequest is sent for each service that the client would like to be described.
 message DescribeRequest {
-    bytes schedule_location_computed_id = 1;
+    bytes schedule_location_computed_id = 1; // The computed_id of a ScheduleLocation within the service to be described.
+                                             // This will be the perspective that the service is described from.
 }

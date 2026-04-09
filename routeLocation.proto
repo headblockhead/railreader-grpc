@@ -5,36 +5,36 @@ import "railtypes.proto";
 import "darwin.proto";
 
 message RouteLocation {
-        message Edge {
-            message Schedule {
-                bytes schedule_location_computed_id = 1;
-            }
-            message Association {
-                bytes schedule_location_computed_id = 1;
-                AssociationCategory association_category = 2;
-                bool is_cancelled = 3;
-            }
-            oneof edge {
-                Schedule schedule = 1;
-                Association association = 2;
-            }
+    message Edge {
+        message Schedule {
+            bytes schedule_location_computed_id = 1;
         }
-        repeated Edge next_edges = 1;
-        repeated Edge previous_edges = 2;
-
-        optional string via_text = 3;
-
-        optional ForecastLocation forecast_location = 4;
-        optional FormationLoading formation_loading = 5;
-  
-        ScheduleLocation schedule_location = 6;
-
-        optional ServiceLoading service_loading = 7;
-
-        // TODO: Train alerts
-        reserved 8 to 12;
-
-        optional string generous_arrival_time = 13;
-        optional string generous_passing_time = 14;
-        optional string generous_departure_time = 15;
+        message Association {
+            bytes schedule_location_computed_id = 1;
+            AssociationCategory association_category = 2;
+            bool is_cancelled = 3;
+        }
+        oneof edge {
+            Schedule schedule = 1;
+            Association association = 2;
+        }
     }
+    repeated Edge next_edges = 1;
+    repeated Edge previous_edges = 2;
+   
+    optional string via_text = 3;
+   
+    optional ForecastLocation forecast_location = 4;
+    optional FormationLoading formation_loading = 5;
+   
+    ScheduleLocation schedule_location = 6;
+   
+    optional ServiceLoading service_loading = 7;
+   
+    // TODO: Train alerts
+    reserved 8 to 12;
+   
+    optional string generous_arrival_time = 13;
+    optional string generous_passing_time = 14;
+    optional string generous_departure_time = 15;
+}

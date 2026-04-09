@@ -1,6 +1,28 @@
 syntax = "proto3";
 option go_package = "github.com/headblockhead/railreader-grpc";
 
+import "darwin.proto";
+import "routeLocation.proto";
+
+// SearchResponse is sent n+1 times, where n represents the number of results found by the search query.
 message SearchResponse {
-    repeated bytes schedule_location_computed_ids = 1;
+    // Metadata is sent once at the start of the SearchResponse stream.
+    message Metadata {
+        uint32 number_of_results = 1; // The number of results to expect from the stream.
+    }
+    // ServiceOverview is sent for each matching search result, and provides a small amount of data about each service.
+    message ServiceOverview {
+        RouteLocation route_location = 1; // The entry in the service's route that matches the "at" location in the request.
+        Schedule schedule = 2; // The schedule data for the route location.
+
+        repeated RouteLocation origin_route_locations = 3; // The route location(s) that the service has as origins. Multiple origins may be provided when two schedules have joined previously in the service's route.
+        repeated RouteLocation destination_route_locations = 4; // The route location(s) that the service has as destinations. Multiple destinations may be provided when a schedule will divide later in the service's route.
+
+        repeated RouteLocation must_stop_at_passenger_route_locations = 5; // The route locations(s) in the service matching the "must_stop_at_passenger_location_ids" set in the request (if any) are given here.
+        repeated RouteLocation must_visit_route_locations = 6; // The route location(s) in the service matching the "must_visit_location_ids" set in the request (if any) are given here.
+    }
+    oneof response {
+        Metadata metadata = 1;
+        ServiceOverview service_overview = 2;
+    }
 }
