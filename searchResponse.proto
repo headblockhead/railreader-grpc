@@ -19,11 +19,15 @@ message SearchResponse {
         repeated RouteLocation origin_route_locations = 4; // The route location(s) that the service has as origins. Multiple origins may be provided when two schedules have joined previously in the service's route.
         repeated RouteLocation destination_route_locations = 5; // The route location(s) that the service has as destinations. Multiple destinations may be provided when a schedule will divide later in the service's route.
 
-        repeated RouteLocation must_stop_at_passenger_route_locations = 6; // The route locations(s) in the service matching the "must_stop_at_passenger_location_ids" set in the request (if any) are given here.
-        repeated RouteLocation must_visit_route_locations = 7; // The route location(s) in the service matching the "must_visit_location_ids" set in the request (if any) are given here.
-        bool arrival = 8;
-        bool passing = 9;
-        bool departure = 10;
+        // The route locations(s) in the service matching the "must_stop_at_passenger_location_ids" set in the request (if any) are given here.
+        repeated RouteLocation must_stop_at_next_passenger_route_locations = 6; 
+        repeated RouteLocation must_stop_at_previous_passenger_route_locations = 7; 
+        // The route location(s) in the service matching the "must_visit_location_ids" set in the request (if any) are given here.
+        repeated RouteLocation must_visit_next_route_locations = 8; 
+        repeated RouteLocation must_visit_previous_route_locations = 9;
+        bool arrival = 10;
+        bool passing = 11;
+        bool departure = 12;
     }
     oneof response {
         Metadata metadata = 1;
